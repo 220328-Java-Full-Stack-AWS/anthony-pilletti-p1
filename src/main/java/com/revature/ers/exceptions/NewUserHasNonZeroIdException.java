@@ -1,4 +1,4 @@
-package com.revature.exceptions;
+package com.revature.ers.exceptions;
 
 public class NewUserHasNonZeroIdException extends RuntimeException {
 

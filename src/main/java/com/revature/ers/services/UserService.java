@@ -1,8 +1,8 @@
-package com.revature.services;
+package com.revature.ers.services;
 
 import java.util.Optional;
 
-import com.revature.models.User;
+import com.revature.ers.models.User;
 
 /**
  * The UserService should handle the processing and retrieval of Users for the ERS application.

@@ -1,7 +1,7 @@
-package com.revature.repositories;
+package com.revature.ers.repositories;
 
-import com.revature.models.Reimbursement;
-import com.revature.models.Status;
+import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Status;
 
 import java.util.Collections;
 import java.util.List;

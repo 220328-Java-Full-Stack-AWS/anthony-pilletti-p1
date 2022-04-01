@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.ers.models;
 
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
  *     <li>Amount</li>
  * </ul>
  *
- * Additional fields can be added to the concrete {@link com.revature.models.Reimbursement} class.
+ * Additional fields can be added to the concrete {@link Reimbursement} class.
  *
  * @author Center of Excellence
  */

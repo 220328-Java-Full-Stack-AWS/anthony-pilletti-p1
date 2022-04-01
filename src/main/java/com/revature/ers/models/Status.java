@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.ers.models;
 
 /**
  * Reimbursements within the ERS application transition through the following statuses:

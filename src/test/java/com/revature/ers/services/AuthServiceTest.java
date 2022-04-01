@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.ers.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -7,16 +7,16 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
-import com.revature.exceptions.NewUserHasNonZeroIdException;
-import com.revature.exceptions.RegistrationUnsuccessfulException;
-import com.revature.repositories.UserDAO;
+import com.revature.ers.models.User;
+import com.revature.ers.exceptions.NewUserHasNonZeroIdException;
+import com.revature.ers.exceptions.RegistrationUnsuccessfulException;
+import com.revature.ers.repositories.UserDAO;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.exceptions.UsernameNotUniqueException;
-import com.revature.models.Role;
-import com.revature.models.User;
+import com.revature.ers.exceptions.UsernameNotUniqueException;
+import com.revature.ers.models.Role;
 
 public class AuthServiceTest {
 	

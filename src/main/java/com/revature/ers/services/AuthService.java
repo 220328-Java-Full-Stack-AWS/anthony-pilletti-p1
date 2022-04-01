@@ -1,6 +1,6 @@
-package com.revature.services;
+package com.revature.ers.services;
 
-import com.revature.models.User;
+import com.revature.ers.models.User;
 
 import java.util.Optional;
 

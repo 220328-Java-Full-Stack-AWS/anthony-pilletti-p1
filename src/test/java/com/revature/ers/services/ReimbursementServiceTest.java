@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.ers.services;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.revature.ers.models.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.models.Reimbursement;
-import com.revature.models.Role;
-import com.revature.models.Status;
-import com.revature.models.User;
-import com.revature.repositories.ReimbursementDAO;
+import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Role;
+import com.revature.ers.models.Status;
+import com.revature.ers.repositories.ReimbursementDAO;
 
 public class ReimbursementServiceTest {
 

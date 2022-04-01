@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.ers.models;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
  *     <li>Role</li>
  * </ul>
  *
- * Additional fields can be added to the concrete {@link com.revature.models.User} class.
+ * Additional fields can be added to the concrete {@link User} class.
  *
  * @author Center of Excellence
  */

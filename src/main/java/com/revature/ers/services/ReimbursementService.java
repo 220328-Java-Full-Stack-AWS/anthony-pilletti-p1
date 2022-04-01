@@ -1,8 +1,8 @@
-package com.revature.services;
+package com.revature.ers.services;
 
-import com.revature.models.Reimbursement;
-import com.revature.models.Status;
-import com.revature.models.User;
+import com.revature.ers.models.User;
+import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Status;
 
 import java.util.Collections;
 import java.util.List;
