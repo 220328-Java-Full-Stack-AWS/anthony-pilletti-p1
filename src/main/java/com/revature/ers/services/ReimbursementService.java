@@ -1,53 +1,56 @@
 package com.revature.ers.services;
 
-import com.revature.ers.models.User;
+import com.revature.ers.dao.ReimbursementDao;
+import com.revature.ers.dao.UserDao;
+import com.revature.ers.dao.UserDaoImp;
 import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Role;
 import com.revature.ers.models.Status;
+import com.revature.ers.models.User;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-/**
- * The ReimbursementService should handle the submission, processing,
- * and retrieval of Reimbursements for the ERS application.
- *
- * {@code process} and {@code getReimbursementsByStatus} are the minimum methods required;
- * however, additional methods can be added.
- *
- * Examples:
- * <ul>
- *     <li>Create Reimbursement</li>
- *     <li>Update Reimbursement</li>
- *     <li>Get Reimbursements by ID</li>
- *     <li>Get Reimbursements by Author</li>
- *     <li>Get Reimbursements by Resolver</li>
- *     <li>Get All Reimbursements</li>
- * </ul>
- */
+
 public class ReimbursementService {
+    private ReimbursementDao rd;
+    private static UserDao uDao = new UserDaoImp();
+    private static UserService uServ = new UserService(uDao);
 
-    /**
-     * <ul>
-     *     <li>Should ensure that the user is logged in as a Finance Manager</li>
-     *     <li>Must throw exception if user is not logged in as a Finance Manager</li>
-     *     <li>Should ensure that the reimbursement request exists</li>
-     *     <li>Must throw exception if the reimbursement request is not found</li>
-     *     <li>Should persist the updated reimbursement status with resolver information</li>
-     *     <li>Must throw exception if persistence is unsuccessful</li>
-     * </ul>
-     *
-     * Note: unprocessedReimbursement will have a status of PENDING, a non-zero ID and amount, and a non-null Author.
-     * The Resolver should be null. Additional fields may be null.
-     * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
-     */
-    public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
-        return null;
+    public ReimbursementService(ReimbursementDao rd){ this.rd = rd; }
+
+    public List<Reimbursement> getAllReimbursements(User u){
+
+
+        List<Reimbursement> allReimbursements = new ArrayList<>();
+
+
+
+        if(rd.getReimbursementUser(u.getUsername()) == null){
+            return allReimbursements;
+        } else {
+            allReimbursements.addAll(rd.getReimbursementUser(u.getUsername()));
+            return allReimbursements;
+        }
+
     }
 
-    /**
-     * Should retrieve all reimbursements with the correct status.
-     */
-    public List<Reimbursement> getReimbursementsByStatus(Status status) {
-        return Collections.emptyList();
+    public void createReimbursement(User u, double amount) {
+        int id = (int) (1000 + (Math.random() * 10000));
+        List<User> viewAll = uServ.allUsers();
+        Iterator<User> uIterate = viewAll.iterator();
+        User res = uIterate.next();
+        while(uIterate.hasNext()){
+            res = uIterate.next();
+            if(res.getRole().equals(Role.FINANCE_MANAGER)){
+                res = res;
+                break;
+            }
+
+        }
+        Reimbursement r = new Reimbursement(id, Status.PENDING, u, res, amount);
+        rd.createReimbursement(r);
     }
+
 }
