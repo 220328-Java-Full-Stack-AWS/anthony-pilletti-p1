@@ -1,30 +1,27 @@
 package com.revature.ers.services;
 
-import java.util.Optional;
 
+import com.revature.ers.dao.UserDao;
+import com.revature.ers.exceptions.UsernameOrPasswordIncorrectException;
 import com.revature.ers.models.User;
 
-/**
- * The UserService should handle the processing and retrieval of Users for the ERS application.
- *
- * {@code getByUsername} is the only method required;
- * however, additional methods can be added.
- *
- * Examples:
- * <ul>
- *     <li>Create User</li>
- *     <li>Update User Information</li>
- *     <li>Get Users by ID</li>
- *     <li>Get Users by Email</li>
- *     <li>Get All Users</li>
- * </ul>
- */
-public class UserService {
+import java.util.List;
 
-	/**
-	 *     Should retrieve a User with the corresponding username or an empty optional if there is no match.
-     */
-	public Optional<User> getByUsername(String username) {
-		return Optional.empty();
-	}
+public class UserService {
+    private UserDao ud;
+
+    public  UserService(UserDao ud){ this.ud = ud; }
+
+    public User login(String username, String password){
+        if(ud.getUserByUserName(username) != null && ud.getUserByUserName(username).getPassword().equals(password)){
+            return ud.getUserByUserName(username);
+        } else {
+            throw new UsernameOrPasswordIncorrectException();
+        }
+    }
+
+    public List<User> allUsers(){
+        List<User> userList = ud.getAllUsers();
+        return userList;
+    }
 }
