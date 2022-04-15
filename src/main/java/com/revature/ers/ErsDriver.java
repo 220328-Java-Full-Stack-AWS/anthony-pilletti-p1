@@ -3,6 +3,7 @@ package com.revature.ers;
 
 import com.revature.ers.dao.*;
 import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Type;
 import com.revature.ers.models.User;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.UserService;
@@ -10,14 +11,25 @@ import com.revature.ers.services.UserService;
 import java.util.*;
 
 public class ErsDriver {
+
+//    public static void main(String[] args){
+//        UserDaoImp dao = new UserDaoImp();
+//        User user = new User("ohyeah", "ohyeah", "ohyeah", "ohyeah", "ohyeah");
+//
+//        user = dao.create(user);
+//        System.out.println(user);
+//
+//        user = dao.getUserByUserName("anthony01");
+//        System.out.println(user);
+//    }
+
     private static UserDao uDao = new UserDaoImp();
     private static UserService uServ = new UserService(uDao);
     private static ReimbursementDao rDao = new ReimbursementDaoImp();
     private static ReimbursementService rServ = new ReimbursementService(rDao);
 
     public static void main(String[] args) {
-        MockUserDB.getInstance().populateUsers();
-        MockReimbursementDB.getInstance().populateReimbursements();
+
 
         User loggedin = null;
         boolean done = false;
@@ -63,9 +75,11 @@ public class ErsDriver {
                         System.out.println("How much do you need to be reimbursed?");
                         double requested = scan.nextDouble();
                         scan.nextLine();
-                        rServ.createReimbursement(loggedin, requested);
+                        System.out.println("What is the type of Reimbursement? Food, Lodging, or Travel?");
+                        String type = scan.nextLine();
+                        rServ.createReimbursement(loggedin, requested, type);
 
-                        System.out.println(rDao.getReimbursementUser(loggedin.getUsername()));
+                        System.out.println(rDao.getReimbursementUser(loggedin));
 
                         break;
                     case 3:

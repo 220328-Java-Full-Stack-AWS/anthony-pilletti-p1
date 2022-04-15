@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface UserDao {
 
-    void saveUser(User u);
+    public User getUserByUserName(String username);
 
-    List<User> getAllUsers();
+    public User create(User userToBeCreated);
 
-    User getUserByUserName(String username);
+    public List<User> getAllUsers();
+    //  public User create(User userToBeCreated);
 
-    void updateUser(User u);
 
 }

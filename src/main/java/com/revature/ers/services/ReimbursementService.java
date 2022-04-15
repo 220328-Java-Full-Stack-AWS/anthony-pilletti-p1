@@ -3,10 +3,7 @@ package com.revature.ers.services;
 import com.revature.ers.dao.ReimbursementDao;
 import com.revature.ers.dao.UserDao;
 import com.revature.ers.dao.UserDaoImp;
-import com.revature.ers.models.Reimbursement;
-import com.revature.ers.models.Role;
-import com.revature.ers.models.Status;
-import com.revature.ers.models.User;
+import com.revature.ers.models.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,22 +19,18 @@ public class ReimbursementService {
 
     public List<Reimbursement> getAllReimbursements(User u){
 
-
         List<Reimbursement> allReimbursements = new ArrayList<>();
 
-
-
-        if(rd.getReimbursementUser(u.getUsername()) == null){
+        if(rd.getReimbursementUser(u) == null){
             return allReimbursements;
         } else {
-            allReimbursements.addAll(rd.getReimbursementUser(u.getUsername()));
+            allReimbursements.addAll(rd.getReimbursementUser(u));
             return allReimbursements;
         }
 
     }
 
-    public void createReimbursement(User u, double amount) {
-        int id = (int) (1000 + (Math.random() * 10000));
+    public void createReimbursement(User u, double amount, String type) {
         List<User> viewAll = uServ.allUsers();
         Iterator<User> uIterate = viewAll.iterator();
         User res = uIterate.next();
@@ -49,8 +42,9 @@ public class ReimbursementService {
             }
 
         }
-        Reimbursement r = new Reimbursement(id, Status.PENDING, u, res, amount);
+        Reimbursement r = new Reimbursement(amount, u, type);
         rd.createReimbursement(r);
     }
+
 
 }

@@ -6,27 +6,31 @@ public class User{
     private int id;
     private String username;
     private String password;
+    private String first;
+    private String last;
+    private String email;
     private Role role;
-    private List<Reimbursement> reimbursements;
 
     public User() {
-        this.reimbursements = new ArrayList<>();
     }
 
-    public User(int id, String username, String password, Role role) {
+    public User(String username, String password, String first, String last, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
-        this.reimbursements = new ArrayList<>();
+        this.first = first;
+        this.last = last;
+        this.email = email;
     }
 
-    public User(int id, String username, String password, Role role, List<Reimbursement> reimbursements) {
+    public User(int id, String username, String password, String first, String last, String email, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.first = first;
+        this.last = last;
+        this.email = email;
         this.role = role;
-        this.reimbursements = reimbursements;
     }
 
     public int getId() {
@@ -53,6 +57,30 @@ public class User{
         this.password = password;
     }
 
+    public String getFirst() {
+        return first;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public String getLast() {
+        return last;
+    }
+
+    public void setLast(String last) {
+        this.last = last;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -60,14 +88,21 @@ public class User{
     public void setRole(Role role) {
         this.role = role;
     }
-
-    public List<Reimbursement> getReimbursements() {
-        return reimbursements;
+    public void setRole(int role) {
+        if(role == 1){
+            this.role = Role.EMPLOYEE;
+        } else if (role == 2){
+            this.role = Role.FINANCE_MANAGER;
+        }
+    }
+    public void setRole(String role){
+        if(role.equals("Employee")){
+            this.role = Role.EMPLOYEE;
+        } else if(role.equals("Finance Manager")){
+            this.role = Role.FINANCE_MANAGER;
+        }
     }
 
-    public void setReimbursements(List<Reimbursement> reimbursements) {
-        this.reimbursements = reimbursements;
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,6 +122,9 @@ public class User{
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", first='" + first + '\'' +
+                ", last='" + last + '\'' +
+                ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
     }

@@ -1,22 +1,94 @@
 package com.revature.ers.dao;
 
-import com.revature.ers.models.User;
 
-import java.util.*;
+import com.revature.ers.models.User;
+import com.revature.ers.util.ConnectionManager;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserDaoImp implements UserDao {
 
-    private MockUserDB db = MockUserDB.getInstance();
-
     @Override
-    public void saveUser(User u){
-        db.getUdb().put(u.getUsername(), u);
+    public User getUserByUserName(String username) {
+        User u = new User();
+        try{
+            String sql = "select eu.USER_ID, USERNAME, eu.ERS_PASSWORD, eu.FIRST_NAME, eu.LAST_NAME, eu.EMAIL, eur.USER_ROLE " +
+                "from ERS_USERS eu " +
+                "join ERS_USER_ROLES eur " +
+                "on eu.ROLE_ID =eur.ROLE_ID " +
+                "where eu.USERNAME = ?";
+            PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
+            pstmt.setString(1, username);
+
+            ResultSet results = pstmt.executeQuery();
+
+            while(results.next()){
+                u.setId(results.getInt("USER_ID"));
+                u.setUsername(results.getString("USERNAME"));
+                u.setPassword(results.getString("ERS_PASSWORD"));
+                u.setFirst(results.getString("FIRST_NAME"));
+                u.setLast(results.getString("LAST_NAME"));
+                u.setEmail(results.getString("EMAIL"));
+                u.setRole(results.getString("USER_ROLE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return u;
     }
 
-    public List<User> getAllUsers() { return new ArrayList<User>(db.getUdb().values());}
+    @Override
+    public User create(User userToBeCreated) {
+        String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL) "
+            + "values (?, ?, ?, ?, ?);";
+        try{
+            PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
+            pstmt.setString(1, userToBeCreated.getUsername());
+            pstmt.setString(2, userToBeCreated.getPassword());
+            pstmt.setString(3, userToBeCreated.getFirst());
+            pstmt.setString(4, userToBeCreated.getLast());
+            pstmt.setString(5, userToBeCreated.getEmail());
+            pstmt.executeUpdate();
 
-    public User getUserByUserName(String username) { return db.getUdb().get(username);}
+            ResultSet results = pstmt.executeQuery();
 
-    public void updateUser(User u){db.getUdb().put(u.getUsername(), u); }
+            while(results.next()){
+                int key = results.getInt(1);
+                userToBeCreated.setId(key);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userToBeCreated;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> list = new LinkedList<>();
+        try {
+            String sql = "SELECT * FROM ERS_USERS ";
+            PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
+            ResultSet results = pstmt.executeQuery();
+
+            while(results.next()){
+                User u = new User();
+                u.setId(results.getInt("USER_ID"));
+                u.setUsername(results.getString("USERNAME"));
+                u.setPassword(results.getString("ERS_PASSWORD"));
+                u.setFirst(results.getString("FIRST_NAME"));
+                u.setLast(results.getString("LAST_NAME"));
+                u.setEmail(results.getString("EMAIL"));
+                u.setRole(results.getInt("ROLE_ID"));
+                list.add(u);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 }

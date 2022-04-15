@@ -1,40 +1,33 @@
 package com.revature.ers.models;
 
-public enum Status {
-    PENDING {
+public enum Type {
+    FOOD {
         @Override
-        public String toString() {
-            return "Pending";
-        }
+        public String toString() {return "Food";}
 
         @Override
         public Integer toInt(){
             return 1;
         }
     },
-    APPROVED {
+    LODGING {
         @Override
-        public String toString() {
-            return "Approved";
-        }
+        public String toString() {return "Lodging";}
 
         @Override
         public Integer toInt(){
             return 2;
         }
     },
-    DENIED {
+    TRAVEL{
         @Override
-        public String toString() {
-            return "Denied";
-        }
+        public String toString() { return "Travel";}
 
         @Override
         public Integer toInt(){
             return 3;
         }
     };
-
 
     public abstract Integer toInt();
 }
