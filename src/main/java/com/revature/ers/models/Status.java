@@ -9,7 +9,7 @@ public enum Status {
 
         @Override
         public Integer toInt(){
-            return 1;
+            return 0;
         }
     },
     APPROVED {
@@ -20,7 +20,7 @@ public enum Status {
 
         @Override
         public Integer toInt(){
-            return 2;
+            return 1;
         }
     },
     DENIED {
@@ -31,7 +31,7 @@ public enum Status {
 
         @Override
         public Integer toInt(){
-            return 3;
+            return 2;
         }
     };
 

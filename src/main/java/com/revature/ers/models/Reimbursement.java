@@ -135,18 +135,24 @@ public class Reimbursement {
         if(resolver == null) {
             return "Reimbursement{" +
                     "id=" + id +
-                    ", status=" + status +
+                    ", date submitted=" + submitted +
+                    ", date resolved=" + resolved +
                     ", author=" + author.getUsername() +
                     ", resolver=" + resolver +
                     ", amount=" + amount +
+                    ", status=" + status +
+                    ", type=" + type +
                     '}';
         } else {
             return "Reimbursement{" +
                     "id=" + id +
-                    ", status=" + status +
+                    ", date submitted=" + submitted +
+                    ", date resolved=" + resolved +
                     ", author=" + author.getUsername() +
                     ", resolver=" + resolver.getUsername() +
                     ", amount=" + amount +
+                    ", status=" + status +
+                    ", type=" + type +
                     '}';
         }
     }

@@ -32,16 +32,16 @@ public class ReimbursementService {
 
     public void createReimbursement(User u, double amount, String type) {
         List<User> viewAll = uServ.allUsers();
-        Iterator<User> uIterate = viewAll.iterator();
-        User res = uIterate.next();
-        while(uIterate.hasNext()){
-            res = uIterate.next();
-            if(res.getRole().equals(Role.FINANCE_MANAGER)){
-                res = res;
-                break;
-            }
-
-        }
+//        Iterator<User> uIterate = viewAll.iterator();
+//        User res = uIterate.next();
+//        while(uIterate.hasNext()){
+//            res = uIterate.next();
+//            if(res.getRole().equals(Role.FINANCE_MANAGER)){
+//                res = res;
+//                break;
+//            }
+//
+//        }
         Reimbursement r = new Reimbursement(amount, u, type);
         rd.createReimbursement(r);
     }

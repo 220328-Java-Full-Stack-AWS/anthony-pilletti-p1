@@ -7,7 +7,7 @@ public enum Type {
 
         @Override
         public Integer toInt(){
-            return 1;
+            return 0;
         }
     },
     LODGING {
@@ -16,7 +16,7 @@ public enum Type {
 
         @Override
         public Integer toInt(){
-            return 2;
+            return 1;
         }
     },
     TRAVEL{
@@ -25,7 +25,7 @@ public enum Type {
 
         @Override
         public Integer toInt(){
-            return 3;
+            return 2;
         }
     };
 

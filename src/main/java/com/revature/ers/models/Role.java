@@ -6,11 +6,15 @@ public enum Role {
         public String toString() {
             return "Employee";
         }
+
+        public Integer toInt() {return 0;}
     },
     FINANCE_MANAGER {
         @Override
         public String toString() {
             return "Finance Manager";
         }
+
+        public Integer toInt() {return 1;}
     }
 }

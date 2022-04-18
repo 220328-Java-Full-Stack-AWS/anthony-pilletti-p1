@@ -103,13 +103,13 @@ public class User{
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User that = (User) o;
-        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && role == that.role;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        User that = (User) o;
+//        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && role == that.role;
+//    }
 
     @Override
     public int hashCode() {
