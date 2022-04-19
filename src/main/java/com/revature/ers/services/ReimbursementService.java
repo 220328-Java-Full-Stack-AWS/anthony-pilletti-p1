@@ -30,6 +30,21 @@ public class ReimbursementService {
 
     }
 
+    public List<Reimbursement> getAllReimbursementsStatus(int status){
+
+        List<Reimbursement> allReimbursements = new ArrayList<>();
+        List<User> viewAll = uServ.allUsers();
+        Iterator<User> uIterate = viewAll.iterator();
+        while (uIterate.hasNext()){
+            User u = uIterate.next();
+            if(rd.getReimbursementByStatus(status, u) != null){
+                allReimbursements.addAll(rd.getReimbursementByStatus(status, u));
+            }
+        }
+        return allReimbursements;
+    }
+
+
     public void createReimbursement(User u, double amount, String type) {
         List<User> viewAll = uServ.allUsers();
 //        Iterator<User> uIterate = viewAll.iterator();

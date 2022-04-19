@@ -116,22 +116,23 @@ public class ReimbursementDaoImp implements ReimbursementDao{
     }
 
     @Override
-    public List<Reimbursement> getReimbursementByStatus(int status) {
+    public List<Reimbursement> getReimbursementByStatus(int status, User u) {
         List<Reimbursement> list = new ArrayList<>();
-        String sql = "SELECT er.REIMB_ID, er.REIMB_AMOUNT, er.REIMB_SUBMITTED, er.REIMB_RESOLVED, a.username as author_username, r.username as resolver_username  , ers_reimbursement_status.reimb_status, ers_reimbursement_type.reimb_type "
+        String sql = "SELECT er.REIMB_ID, er.REIMB_AMOUNT, er.REIMB_SUBMITTED, er.REIMB_RESOLVED, a.username as author_username, r.username as resolver_username , ers_reimbursement_status.reimb_status, ers_reimbursement_type.reimb_type "
                 + "from ers_reimbursement er "
                 + "join ers_reimbursement_status "
                 + "on er.reimb_status_id = ers_reimbursement_status.reimb_status_id "
-                + "join ers_reimbursement_type"
+                + "join ers_reimbursement_type "
                 + "on er.reimb_type_id = ers_reimbursement_type.reimb_type_id "
                 + "left join ers_users a "
                 + "on er.reimb_AUTHOR = a.user_id "
                 + "left join ers_users r "
                 + "on er.reimb_resolver = r.user_id "
-                + "where er.reimb_status_id = ? ";
+                + "where er.reimb_status_id=? and er.reimb_author=?";
         try{
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setInt(1, status);
+            pstmt.setInt(2, u.getId());
 
             ResultSet results = pstmt.executeQuery();
 
@@ -141,7 +142,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setAmount(results.getInt("reimb_amount"));
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
-                //r.setAuthor(results.getString("author_username"));
+                r.setAuthor(u);
                 //r.setResolver(results.getString("resolver_username"));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
@@ -192,13 +193,13 @@ public class ReimbursementDaoImp implements ReimbursementDao{
     }
 
     @Override
-    public void completeReimbursement(Reimbursement r, User u) {
+    public void completeReimbursement(int id, int status, User u) {
         String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_status_id=?, reimb_resolver=?  WHERE reimb_id = ?";
         try {
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
-            pstmt.setInt(1, r.getStatus().toInt());
+            pstmt.setInt(1, status);
             pstmt.setInt(2, u.getId());
-            pstmt.setInt(3, r.getId());
+            pstmt.setInt(3, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

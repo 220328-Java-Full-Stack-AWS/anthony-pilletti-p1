@@ -61,7 +61,7 @@ public class ErsDriver {
                    System.out.println("Enter your email:");
                    String email = scan.nextLine();
                    uDao.create(username,password,first,last,email);
-                   done = true;
+                   break;
                }else {
                    System.out.println("I didn't quite catch that");
                }
@@ -152,7 +152,7 @@ public class ErsDriver {
                         int filter = scan.nextInt();
                         scan.nextLine();
                         System.out.println("These are all the reimbursements waiting to be completed:");
-                        List<Reimbursement> allPending = rDao.getReimbursementByStatus(filter);
+                        List<Reimbursement> allPending = rServ.getAllReimbursementsStatus(filter);
                         Iterator<Reimbursement> pIterate = allPending.iterator();
                         while (pIterate.hasNext()){
                             Reimbursement r = pIterate.next();
@@ -163,12 +163,21 @@ public class ErsDriver {
                     case 2:
                         System.out.println("Which reimbursement would you like to approve or deny, please enter its ID:");
                         int update = scan.nextInt();
-
+                        scan.nextLine();
+                        System.out.println("Press 1 to approve or 2 to deny the reimbursement.");
+                        int status = scan.nextInt();
+                        scan.nextLine();
+                        rDao.completeReimbursement(update, status, loggedin);
+                        break;
                 }
-                done = true;
-            } else if(loggedin!=null && loggedin.getRole() == null){
+                System.out.println("Are you done with your system today? Type y or n");
+                if(scan.nextLine().equals("y")){
+                    done = true;
+                }
+            } else if(loggedin!=null && loggedin.getRole().equals(null)){
                 System.out.println("Welcome New User");
                 System.out.println("No permissions granted at this time until approval of account from admin.");
+                done = true;
             }
         }
         System.out.println("Goodbye, have a nice day!");

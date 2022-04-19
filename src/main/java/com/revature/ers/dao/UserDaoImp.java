@@ -42,16 +42,16 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void create(String...strings) {
+    public void create(String one, String two, String three, String four, String five) {
         String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL) "
             + "values (?, ?, ?, ?, ?);";
         try{
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
-            pstmt.setString(1, strings[0]);
-            pstmt.setString(2, strings[1]);
-            pstmt.setString(3, strings[2]);
-            pstmt.setString(4, strings[3]);
-            pstmt.setString(5, strings[4]);
+            pstmt.setString(1, one);
+            pstmt.setString(2, two);
+            pstmt.setString(3, three);
+            pstmt.setString(4, four);
+            pstmt.setString(5, five);
             pstmt.executeUpdate();
 
             ResultSet results = pstmt.executeQuery();

@@ -27,6 +27,7 @@ public class ConnectionManager {
 
     private static Connection connect(){
         try{
+            Class.forName("org.postgresql.Driver");
             Properties props = new Properties();
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             InputStream input = loader.getResourceAsStream("application.properties");
@@ -45,7 +46,7 @@ public class ConnectionManager {
 
             System.out.println("Connection String: " + connectionString);
 
-        } catch (IOException | SQLException e) {
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;

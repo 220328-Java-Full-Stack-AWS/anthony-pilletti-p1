@@ -13,12 +13,12 @@ public interface ReimbursementDao {
     public List<Reimbursement> getReimbursementUser(User u);
     public List<Reimbursement> getReimbursementByID(int id);
 
-    List<Reimbursement> getReimbursementByStatus(int status);
+    List<Reimbursement> getReimbursementByStatus(int status, User u);
 
 
     List<Reimbursement> getPendingReimbursementByUser(User u);
 
-    public void completeReimbursement(Reimbursement r, User u);
+    public void completeReimbursement(int id, int status, User u);
     public void cancelReimbursement(Reimbursement r);
 
     void editReimbursement(double amount, User u, int id);
