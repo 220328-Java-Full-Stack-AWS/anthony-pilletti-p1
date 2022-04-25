@@ -1,7 +1,9 @@
 package com.revature.ers.models;
 
 import java.util.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties
 public class User{
     private int id;
     private String username;

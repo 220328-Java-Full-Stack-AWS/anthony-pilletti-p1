@@ -12,24 +12,12 @@ import java.util.*;
 
 public class ErsDriver {
 
-//    public static void main(String[] args){
-//        UserDaoImp dao = new UserDaoImp();
-//        User user = new User("ohyeah", "ohyeah", "ohyeah", "ohyeah", "ohyeah");
-//
-//        user = dao.create(user);
-//        System.out.println(user);
-//
-//        user = dao.getUserByUserName("anthony01");
-//        System.out.println(user);
-//    }
-
-    private static UserDao uDao = new UserDaoImp();
+    private static UserDaoImp uDao = new UserDaoImp();
     private static UserService uServ = new UserService(uDao);
-    private static ReimbursementDao rDao = new ReimbursementDaoImp();
+    private static ReimbursementDaoImp rDao = new ReimbursementDaoImp();
     private static ReimbursementService rServ = new ReimbursementService(rDao);
 
     public static void main(String[] args) {
-
 
         User loggedin = null;
         boolean done = false;
@@ -152,10 +140,10 @@ public class ErsDriver {
                         int filter = scan.nextInt();
                         scan.nextLine();
                         System.out.println("These are all the reimbursements waiting to be completed:");
-                        List<Reimbursement> allPending = rServ.getAllReimbursementsStatus(filter);
-                        Iterator<Reimbursement> pIterate = allPending.iterator();
-                        while (pIterate.hasNext()){
-                            Reimbursement r = pIterate.next();
+                        List<Reimbursement> allStatus = rServ.getAllReimbursementsStatus(filter);
+                        Iterator<Reimbursement> sIterate = allStatus.iterator();
+                        while (sIterate.hasNext()){
+                            Reimbursement r = sIterate.next();
                             System.out.println(r);
                             System.out.println();
                         }
@@ -174,10 +162,6 @@ public class ErsDriver {
                 if(scan.nextLine().equals("y")){
                     done = true;
                 }
-            } else if(loggedin!=null && loggedin.getRole().equals(null)){
-                System.out.println("Welcome New User");
-                System.out.println("No permissions granted at this time until approval of account from admin.");
-                done = true;
             }
         }
         System.out.println("Goodbye, have a nice day!");

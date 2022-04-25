@@ -3,15 +3,13 @@ package com.revature.ers.dao;
 import com.revature.ers.models.Reimbursement;
 import com.revature.ers.models.User;
 import com.revature.ers.util.ConnectionManager;
-
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
-
-
 public class ReimbursementDaoImp implements ReimbursementDao{
-
-
+    private UserDaoImp uDao = new UserDaoImp();
+    private UserDaoImp resolverDao = new UserDaoImp();
 
     @Override
     public Reimbursement createReimbursement(Reimbursement r) {
@@ -62,11 +60,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
                 r.setAuthor(u);
-
-
-                //have to set up a way to set a resolver on local when receiving from a remote database
-
-
+                r.setResolver(resolverDao.getUserByUserName(results.getString("resolver_username")));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
                 list.add(r);
@@ -78,8 +72,8 @@ public class ReimbursementDaoImp implements ReimbursementDao{
     }
 
     @Override
-    public List<Reimbursement> getReimbursementByID(int id) {
-        List<Reimbursement> list = new ArrayList<>();
+    public Reimbursement getReimbursementByID(int id) {
+        Reimbursement r = new Reimbursement();
         String sql = "SELECT er.REIMB_ID, er.REIMB_AMOUNT, er.REIMB_SUBMITTED, er.REIMB_RESOLVED, a.username as author_username, r.username as resolver_username  , ers_reimbursement_status.reimb_status, ers_reimbursement_type.reimb_type "
             + "from ers_reimbursement er "
             + "join ers_reimbursement_status "
@@ -98,21 +92,19 @@ public class ReimbursementDaoImp implements ReimbursementDao{
             ResultSet results = pstmt.executeQuery();
 
             while(results.next()){
-                Reimbursement r = new Reimbursement();
                 r.setId(results.getInt("reimb_id"));
                 r.setAmount(results.getInt("reimb_amount"));
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
-                //r.setAuthor(results.getString("author_username"));
-                //r.setResolver(results.getString("resolver_username"));
+                r.setAuthor(uDao.getUserByUserName(results.getString("author_username")));
+                r.setResolver(resolverDao.getUserByUserName(results.getString("resolver_username")));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
-                list.add(r);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+        return r;
     }
 
     @Override
@@ -143,7 +135,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
                 r.setAuthor(u);
-                //r.setResolver(results.getString("resolver_username"));
+                r.setResolver(resolverDao.getUserByUserName(results.getString("resolver_username")));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
                 list.add(r);
@@ -194,7 +186,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
 
     @Override
     public void completeReimbursement(int id, int status, User u) {
-        String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_status_id=?, reimb_resolver=?  WHERE reimb_id = ?";
+        String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_status_id=?, reimb_resolver=? WHERE reimb_id = ?";
         try {
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setInt(1, status);

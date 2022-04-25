@@ -43,8 +43,8 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void create(String one, String two, String three, String four, String five) {
-        String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL) "
-            + "values (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, ROLE_ID) "
+            + "values (?, ?, ?, ?, ?, ?);";
         try{
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setString(1, one);
@@ -52,9 +52,8 @@ public class UserDaoImp implements UserDao {
             pstmt.setString(3, three);
             pstmt.setString(4, four);
             pstmt.setString(5, five);
+            pstmt.setInt(6, 0);
             pstmt.executeUpdate();
-
-            ResultSet results = pstmt.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();

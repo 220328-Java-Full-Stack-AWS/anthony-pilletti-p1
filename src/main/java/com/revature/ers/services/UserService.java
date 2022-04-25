@@ -2,6 +2,7 @@ package com.revature.ers.services;
 
 
 import com.revature.ers.dao.UserDao;
+import com.revature.ers.dao.UserDaoImp;
 import com.revature.ers.exceptions.UsernameOrPasswordIncorrectException;
 import com.revature.ers.models.User;
 import com.revature.ers.util.ConnectionManager;
@@ -11,9 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-    private UserDao ud;
+    private UserDaoImp ud;
 
-    public UserService(UserDao ud){
+    public UserService(UserDaoImp ud){
         this.ud = ud;
     }
 

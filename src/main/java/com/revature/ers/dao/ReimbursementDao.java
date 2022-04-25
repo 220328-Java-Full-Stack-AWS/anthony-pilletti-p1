@@ -11,17 +11,11 @@ public interface ReimbursementDao {
     //but not anymore because we do sql commands, also must be able to update the reimbursement
     public Reimbursement createReimbursement(Reimbursement r);
     public List<Reimbursement> getReimbursementUser(User u);
-    public List<Reimbursement> getReimbursementByID(int id);
-
+    public Reimbursement getReimbursementByID(int id);
     List<Reimbursement> getReimbursementByStatus(int status, User u);
-
-
     List<Reimbursement> getPendingReimbursementByUser(User u);
-
     public void completeReimbursement(int id, int status, User u);
     public void cancelReimbursement(Reimbursement r);
-
     void editReimbursement(double amount, User u, int id);
-
     public void cancelReimbursement(int id, User u);
 }

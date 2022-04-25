@@ -2,7 +2,9 @@ package com.revature.ers.models;
 
 import java.util.Date;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties
 public class Reimbursement {
     private int id;
     private double amount;

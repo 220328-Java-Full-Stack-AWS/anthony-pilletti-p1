@@ -13,8 +13,12 @@
 
     <listener>
         <listener-class>com.revature.ers.servlets.DependencyLoaderListener</listener-class>
-
     </listener>
+
+    <servlet-mapping>
+        <servlet-name>pingServlet</servlet-name>
+        <url-pattern>/ping</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>pingServlet</servlet-name>
@@ -22,9 +26,35 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>pingServlet</servlet-name>
-        <url-pattern>/ping</url-pattern>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/User</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>userServlet</servlet-name>
+        <servlet-class>com.revature.ers.servlets.UserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>reimbursementServlet</servlet-name>
+        <url-pattern>/Reimbursement</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>reimbursementServlet</servlet-name>
+        <servlet-class>com.revature.ers.servlets.ReimbursementServlet</servlet-class>
+    </servlet>
+
+    <!-- CORS FILTER -->
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>com.revature.ers.servlets.CorsFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- /CORS FILTER -->
 </web-app>
 
