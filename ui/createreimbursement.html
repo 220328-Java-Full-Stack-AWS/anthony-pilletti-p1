@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Reimbursement</title>
+</head>
+<body>
+    <div class="contentBox">
+        <div class="flexColumn">
+            <div class="flexRow">
+                <label>Amount: </label>
+                <input type="text" id="amount" placeholder="amount" name="amount">
+            </div>
+            <div class="flexRow">
+                <label>Type: </label>
+                <input type="text" id="type" placeholder="type" name="type">
+            </div>
+        </div>
+    
+        <button onclick="submitForm()">Create</button>
+    </div>
+    
+    <!-- This imports a script file, in this case it imports the exported scripts from that file -->
+    <script src="./scripts/reimbursementConnection.js"></script>
+    <script src="./scripts/userConnection.js"></script>
+    <script>
+        async function submitForm() {
+            let authorizedUser = localStorage.getItem("authToken");
+            console.log("authorizedUser: ", authorizedUser);
+            let user = await getUser(authorizedUser);
+            let json = await user.json();
+            console.log("Response: ", user);
+            console.log("Response JSON: ", json);
+            let newReimbursement = {
+                amount: document.getElementById("amount").value,
+                type: document.getElementById("type").value,
+                author: json
+            }
+            console.log(newReimbursement);
+
+            let response = createReimbursement(newReimbursement);
+
+            console.log("Response: ", response);
+            console.log("Response JSON: ", response.json());
+
+            if (response.status == 201) {
+                
+                window.location.href = "./landingpage.html";
+
+            } else {
+                alert("Unable to create reimbursement!");
+            }
+
+            //console.log(response);
+        }
+    </script>
+</body>
+</html>

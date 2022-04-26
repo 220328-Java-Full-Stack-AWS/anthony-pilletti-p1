@@ -1,0 +1,27 @@
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 5px;
+}
+
+.contentBox {
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+    border-bottom: 5px solid gray;
+    border-right: 6px solid gray;
+    margin: auto;
+    width: min-content;
+}
+
+.contentBoxButton {
+    align-self: center;
+}

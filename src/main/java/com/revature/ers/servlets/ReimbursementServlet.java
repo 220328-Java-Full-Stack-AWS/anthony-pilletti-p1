@@ -1,12 +1,10 @@
 package com.revature.ers.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.ers.GlobalObjectStore;
 import com.revature.ers.dao.ReimbursementDaoImp;
 import com.revature.ers.dao.UserDaoImp;
 import com.revature.ers.models.Authorization;
 import com.revature.ers.models.Reimbursement;
-import com.revature.ers.models.User;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.UserService;
 
@@ -83,7 +81,6 @@ public class ReimbursementServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Reimbursement r = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
-        GlobalObjectStore.addObject(Integer.toString(r.getId()), r);
         rServ.createReimbursement(r.getAuthor().getUsername(), r.getAmount(), r.getType().toString());
         resp.setStatus(201);
     }
