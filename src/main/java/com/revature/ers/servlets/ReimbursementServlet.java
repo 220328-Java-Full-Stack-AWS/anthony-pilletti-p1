@@ -1,9 +1,12 @@
 package com.revature.ers.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.ers.GlobalObjectStore;
 import com.revature.ers.dao.ReimbursementDaoImp;
 import com.revature.ers.dao.UserDaoImp;
+import com.revature.ers.models.Authorization;
 import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.User;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.UserService;
 
@@ -36,7 +39,8 @@ public class ReimbursementServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch(req.getHeader("mode")){
             case "user":
-                List<Reimbursement> all = rDao.getReimbursementUser(uDao.getUserByUserName(req.getHeader("author")));
+                Authorization authorization = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
+                List<Reimbursement> all = rDao.getReimbursementUser(uDao.getUserByUserName(authorization.getUsername()));
                 Iterator<Reimbursement> aIterate = all.iterator();
                 while(aIterate.hasNext()){
                     Reimbursement a = aIterate.next();
@@ -47,7 +51,8 @@ public class ReimbursementServlet extends HttpServlet {
                 }
                 break;
             case "status":
-                List<Reimbursement> status = rServ.getAllReimbursementsStatus(Integer.parseInt(req.getHeader("status")));
+                Reimbursement s = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
+                List<Reimbursement> status = rServ.getAllReimbursementsStatus(s.getStatus().toInt());
                 Iterator<Reimbursement> sIterate = status.iterator();
                 while(sIterate.hasNext()){
                     Reimbursement r = sIterate.next();
@@ -58,7 +63,8 @@ public class ReimbursementServlet extends HttpServlet {
                 }
                 break;
             case "pendinguser":
-                List<Reimbursement> pending = rDao.getPendingReimbursementByUser(uDao.getUserByUserName(req.getHeader("author")));
+                Authorization apending = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
+                List<Reimbursement> pending = rDao.getPendingReimbursementByUser(uDao.getUserByUserName(apending.getUsername()));
                 Iterator<Reimbursement> pIterate = pending.iterator();
                 while(pIterate.hasNext()){
                     Reimbursement p = pIterate.next();
@@ -76,7 +82,9 @@ public class ReimbursementServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rServ.createReimbursement(uDao.getUserByUserName(req.getHeader("username")), Double.parseDouble(req.getHeader("amount")),req.getHeader("type"));
+        Reimbursement r = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
+        GlobalObjectStore.addObject(Integer.toString(r.getId()), r);
+        rServ.createReimbursement(r.getAuthor().getUsername(), r.getAmount(), r.getType().toString());
         resp.setStatus(201);
     }
 
@@ -84,11 +92,14 @@ public class ReimbursementServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch(req.getHeader("mode")){
             case "amount":
-                rDao.editReimbursement(Double.parseDouble(req.getHeader("amount")), uDao.getUserByUserName(req.getHeader("username")), Integer.parseInt(req.getHeader("id")));
+                Reimbursement editAmount = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
+                rDao.editReimbursement(editAmount.getAmount(), editAmount.getAuthor().getUsername(), editAmount.getId());
                 resp.setStatus(204);
                 break;
             case "completed":
-                rDao.completeReimbursement(Integer.parseInt(req.getHeader("id")), Integer.parseInt(req.getHeader("status")),uDao.getUserByUserName(req.getHeader("resolver")));
+                Reimbursement resolve = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
+                rDao.completeReimbursement(resolve.getId(), resolve.getStatus().toInt(), resolve.getResolver());
+                resp.setStatus(204);
                 break;
             default:
                 resp.setStatus(400);
@@ -98,7 +109,8 @@ public class ReimbursementServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rDao.cancelReimbursement(Integer.parseInt(req.getHeader("id")), uDao.getUserByUserName(req.getHeader("username")));
+        Reimbursement r = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
+        rDao.cancelReimbursement(r.getId(), r.getAuthor());
         resp.setStatus(202);
     }
 }

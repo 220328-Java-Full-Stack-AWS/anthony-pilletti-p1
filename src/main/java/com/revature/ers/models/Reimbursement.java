@@ -18,7 +18,7 @@ public class Reimbursement {
     public Reimbursement() {
     }
 
-    public Reimbursement(double amount, User author, String type) {
+    public Reimbursement(User author, double amount ,String type) {
         this.amount = amount;
         this.author = author;
         setType(type);

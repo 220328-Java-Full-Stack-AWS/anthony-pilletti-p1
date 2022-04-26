@@ -199,7 +199,9 @@ public class ReimbursementDaoImp implements ReimbursementDao{
     }
 
     @Override
-    public void editReimbursement(double amount, User u, int id){
+    public void editReimbursement(double amount, String author, int id){
+
+        User u = uDao.getUserByUserName(author);
         String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_amount=? WHERE reimb_author=? and reimb_id=?";
         try{
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);

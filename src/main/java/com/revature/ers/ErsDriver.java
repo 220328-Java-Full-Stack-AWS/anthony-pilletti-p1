@@ -70,7 +70,7 @@ public class ErsDriver {
                         scan.nextLine();
                         System.out.println("What is the type of Reimbursement? Food, Lodging, or Travel?");
                         String type = scan.nextLine();
-                        rServ.createReimbursement(loggedin, requested, type);
+                        rServ.createReimbursement(loggedin.getUsername(), requested, type);
 
                         System.out.println(rDao.getReimbursementUser(loggedin));
 
@@ -116,7 +116,7 @@ public class ErsDriver {
                         System.out.println("What is the new amount that you would like to be reimbursed for?");
                         double amount = scan.nextDouble();
                         scan.nextLine();
-                        rDao.editReimbursement(amount, loggedin, edit);
+                        rDao.editReimbursement(amount, loggedin.getUsername(), edit);
                         break;
                     default:
                         System.out.println("I didn't get that, re-enter your choice.");

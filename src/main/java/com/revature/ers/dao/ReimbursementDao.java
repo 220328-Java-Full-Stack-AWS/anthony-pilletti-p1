@@ -16,6 +16,6 @@ public interface ReimbursementDao {
     List<Reimbursement> getPendingReimbursementByUser(User u);
     public void completeReimbursement(int id, int status, User u);
     public void cancelReimbursement(Reimbursement r);
-    void editReimbursement(double amount, User u, int id);
+    void editReimbursement(double amount, String username, int id);
     public void cancelReimbursement(int id, User u);
 }

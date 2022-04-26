@@ -46,8 +46,9 @@ public class ReimbursementService {
     }
 
 
-    public void createReimbursement(User u, double amount, String type) {
-        Reimbursement r = new Reimbursement(amount, u, type);
+    public void createReimbursement(String author, double amount, String type) {
+        User u = uDao.getUserByUserName(author);
+        Reimbursement r = new Reimbursement(u, amount, type);
         rd.createReimbursement(r);
     }
 
