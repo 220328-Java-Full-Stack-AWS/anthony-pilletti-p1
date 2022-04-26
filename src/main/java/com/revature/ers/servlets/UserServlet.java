@@ -40,7 +40,7 @@ public class UserServlet extends HttpServlet {
                 User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
                 dao.create(u.getUsername(), u.getPassword(), u.getFirst(), u.getLast(), u.getEmail());
                 resp.setStatus(201);
-                resp.getWriter().print(dao.getUserByUserName(u.getUsername()));
+                //resp.getWriter().print(dao.getUserByUserName(u.getUsername()));
                 resp.setHeader("access-control-expose-headers", "authToken");
                 resp.setHeader("authToken", u.getUsername());
                 break;
