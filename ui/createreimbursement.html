@@ -36,19 +36,11 @@
             let newReimbursement = {
                 amount: document.getElementById("amount").value,
                 type: document.getElementById("type").value,
-                author: {
-                    "id": 1,
-                    "username": "anthony01",
-                    "password": "password",
-                    "first": "Anthony",
-                    "last": "Pilletti",
-                    "email": "apill@email.com",
-                    "role": null
-                }
+                author: json
             }
             console.log(newReimbursement);
 
-            let response = createReimbursement(newReimbursement);
+            let response = await createReimbursement(newReimbursement);
 
             console.log("Response: ", response);
             console.log("Response JSON: ", response.json());
@@ -60,8 +52,6 @@
             } else {
                 alert("Unable to create reimbursement!");
             }
-
-            //console.log(response);
         }
     </script>
 </body>

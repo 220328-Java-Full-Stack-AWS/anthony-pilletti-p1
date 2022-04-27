@@ -186,7 +186,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
 
     @Override
     public void completeReimbursement(int id, int status, User u) {
-        String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_status_id=?, reimb_resolver=? WHERE reimb_id = ?";
+        String sql = "UPDATE ERS_REIMBURSEMENT SET reimb_status_id=?, reimb_resolver=?, reimb_resolved = CURRENT_TIMESTAMP WHERE reimb_id = ?";
         try {
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setInt(1, status);

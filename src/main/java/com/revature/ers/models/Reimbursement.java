@@ -135,15 +135,15 @@ public class Reimbursement {
     @Override
     public String toString() {
         if(resolver == null) {
-            return "Reimbursement{" +
-                    "id=" + id +
-                    ", date submitted=" + submitted +
-                    ", date resolved=" + resolved +
-                    ", author=" + author.getUsername() +
-                    ", resolver=" + resolver +
-                    ", amount=" + amount +
-                    ", status=" + status +
-                    ", type=" + type +
+            return "{" +
+                    "id:" + id +
+                    ", date submitted:" + submitted +
+                    ", date resolved:" + resolved +
+                    ", author:" + author.getUsername() +
+                    ", resolver:" + resolver +
+                    ", amount:" + amount +
+                    ", status:" + status +
+                    ", type:" + type +
                     '}';
         } else {
             return "Reimbursement{" +

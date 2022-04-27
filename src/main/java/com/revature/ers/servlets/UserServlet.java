@@ -30,8 +30,10 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = dao.getUserByUserName(req.getHeader("username"));
+        String json = mapper.writeValueAsString(user);
+        resp.setContentType("application/json");
         resp.setStatus(200);
-        resp.getWriter().print(user);
+        resp.getWriter().print(json);
     }
 
     @Override
@@ -41,18 +43,24 @@ public class UserServlet extends HttpServlet {
                 User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
                 dao.register(u.getUsername(), u.getPassword(), u.getFirst(),u.getLast(),u.getEmail());
                 resp.setStatus(201);
-                resp.getWriter().print(dao.getUserByUserName(u.getUsername()));
+                User u2= dao.getUserByUserName(u.getUsername());
+                String json = mapper.writeValueAsString(u2);
+                resp.setContentType("application/json");
                 resp.setHeader("access-control-expose-headers", "authToken");
                 resp.setHeader("authToken", u.getUsername());
+                resp.getWriter().print(json);
                 break;
             case "login":
                 Authorization authorization = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
                 User checkUser = service.login(authorization.getUsername(), authorization.getPassword());
                 if (checkUser != null) {
                     resp.setStatus(200);
-                    resp.getWriter().print(dao.getUserByUserName(checkUser.getUsername()));
+                    User u3 = dao.getUserByUserName(checkUser.getUsername());
+                    String json2 = mapper.writeValueAsString(u3);
+                    resp.setContentType("application/json");
                     resp.setHeader("access-control-expose-headers", "authToken");
                     resp.setHeader("authToken", checkUser.getUsername());
+                    resp.getWriter().print(json2);
                 } else {
                     resp.setStatus(401);
                 }

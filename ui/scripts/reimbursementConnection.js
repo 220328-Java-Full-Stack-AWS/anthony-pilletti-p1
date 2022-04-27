@@ -4,7 +4,7 @@ let reimbursementResourceURL = "http://localhost:8080/ERS/Reimbursement";
 
 
 async function createReimbursement(newReimbursement) {
-    let response = await fetch(
+    return await fetch(
         reimbursementResourceURL,
         {
             method: "POST",
@@ -15,7 +15,7 @@ async function createReimbursement(newReimbursement) {
         }
     );
 
-    return response;
+    //return response;
 }
 
 async function getReimbursementByUser(authorization) {

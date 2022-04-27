@@ -83,6 +83,7 @@ public class ReimbursementServlet extends HttpServlet {
         Reimbursement r = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
         rServ.createReimbursement(r.getAuthor().getUsername(), r.getAmount(), r.getType().toString());
         resp.setStatus(201);
+        resp.setContentType("application/json");
     }
 
     @Override

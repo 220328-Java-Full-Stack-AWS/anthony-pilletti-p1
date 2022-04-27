@@ -98,7 +98,7 @@ async function getUser(username) {
         {
             method: "GET",
             headers: {
-                "username": "username"
+                username: username
             }
         }
     );
