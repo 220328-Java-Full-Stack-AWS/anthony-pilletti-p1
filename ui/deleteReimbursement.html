@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Reimbursement</title>
+</head>
+
+<body>
+    <script>
+        let authorizedUser = localStorage.getItem("authToken");
+        console.log("authorizedUser: ", authorizedUser);
+        let user = await getUser(authorizedUser);
+        let json = await user.json();
+        console.log("Response: ", user);
+        console.log("Response JSON: ", json);
+        let authorization = {
+            username: json.username,
+            password: json.password
+        }
+        let pending = getReimbursementByPendingUser(authorization);
+    </script>
+    <div class="contentBox">
+        <div class="flexColumn">
+            <div class="flexRow">
+                <label>Reimbursement ID: </label>
+                <input type="text" id="id" placeholder="id" name="id">
+            </div>
+        </div>
+
+        <button onclick="submitForm()">Update</button>
+    </div>
+
+    <!-- This imports a script file, in this case it imports the exported scripts from that file -->
+    <script src="./scripts/reimbursementConnection.js"></script>
+    <script src="./scripts/userConnection.js"></script>
+    <script>
+
+        async function submitForm() {
+            let deleteReimbursement = {
+                id: document.getElementById("id").value,
+                author: json
+            }
+            console.log(deleteReimbursement);
+
+            let response = deleteReimbursement(deleteReimbursement);
+
+            console.log("Response: ", response);
+            console.log("Response JSON: ", response.json());
+
+            if (response.status == 202) {
+
+                window.location.href = "./landingpage.html";
+
+            } else {
+                alert("Unable to edit reimbursement!");
+            }
+
+            //console.log(response);
+        }
+    </script>
+
+</body>
+
+</html>

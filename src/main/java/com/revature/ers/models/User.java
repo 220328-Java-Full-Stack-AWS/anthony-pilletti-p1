@@ -17,12 +17,20 @@ public class User{
     }
 
     public User(String username, String password, String first, String last, String email) {
-        this.id = id;
         this.username = username;
         this.password = password;
         this.first = first;
         this.last = last;
         this.email = email;
+    }
+
+    public User(String username, String password, String first, String last, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.first = first;
+        this.last = last;
+        this.email = email;
+        this.role = role;
     }
 
     public User(int id, String username, String password, String first, String last, String email, Role role) {

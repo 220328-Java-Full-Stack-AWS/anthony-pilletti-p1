@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reimbursements</title>
+</head>
+
+<body>
+    <div class="contentBox">
+        <div class="flexColumn">
+            <div class="flexRow">
+                <label>Status:</label>
+                <input type="text" id="status" placeholder="status" name="status">
+            </div>
+        </div>
+        <button onclick="submitForm()">List Reimbursements</button>
+    </div>
+    <!-- This imports a script file, in this case it imports the exported scripts from that file -->
+    <script src="./scripts/reimbursementConnection.js"></script>
+    <script src="./scripts/userConnection.js"></script>
+    <script>
+        let authorizedUser = localStorage.getItem("authToken");
+        console.log("authorizedUser: ", authorizedUser);
+        let user = await getUser(authorizedUser);
+        let json = await user.json();
+        console.log("Response: ", user);
+        console.log("Response JSON: ", json);
+        let statusList = {
+            status: document.getElementById("status").value
+        }
+        console.log(statusList);
+
+        let response = getReimbursementByStatus(statusList.status);
+
+        console.log("Response: ", response);
+        console.log("Response JSON: ", response.json());
+
+        if (response.status == 200) {
+
+            window.location.href = "./landingpage.html";
+
+        } else {
+            alert("Unable to create reimbursement!");
+        }
+
+        //console.log(response);
+    </script>
+</body>
+
+</html>

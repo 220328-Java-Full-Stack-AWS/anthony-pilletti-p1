@@ -18,7 +18,7 @@ async function createReimbursement(newReimbursement) {
     return response;
 }
 
-async function getReimbursementByUser(authDto) {
+async function getReimbursementByUser(authorization) {
     let response = await fetch(
         reimbursementResourceURL,
         {
@@ -26,7 +26,8 @@ async function getReimbursementByUser(authDto) {
             headers: {
                 "Content-Type": "application/json",
                 "mode": "user"
-            }
+            },
+            body: JSON.stringify(authorization)
         }
     );
 
@@ -41,14 +42,15 @@ async function getReimbursementByStatus(status) {
             headers: {
                 "Content-Type": "application/json",
                 "mode": "status"
-            }
+            },
+            body: JSON.stringify(status)
         }
     );
 
     return response;
 }
 
-async function getReimbursementByPendingUser(authDto) {
+async function getReimbursementByPendingUser(authorization) {
     let response = await fetch(
         reimbursementResourceURL,
         {
@@ -56,7 +58,8 @@ async function getReimbursementByPendingUser(authDto) {
             headers: {
                 "Content-Type": "application/json",
                 "mode": "pendinguser"
-            }
+            },
+            body: JSON.stringify(authorization)
         }
     );
 

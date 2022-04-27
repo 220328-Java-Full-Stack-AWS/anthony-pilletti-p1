@@ -30,12 +30,12 @@
 
     <script>
         async function submitForm() {
-            let authDto = {
+            let authorization = {
                 username: document.getElementById("username").value,
                 password: document.getElementById("password").value
             }
 
-            let response = await loginRequest(authDto);
+            let response = await loginRequest(authorization);
 
             console.log("Response: ", response);
             console.log("Response JSON: ", response.json());

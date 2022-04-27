@@ -34,6 +34,7 @@ public class UserDaoImp implements UserDao {
                 u.setLast(results.getString("LAST_NAME"));
                 u.setEmail(results.getString("EMAIL"));
                 u.setRole(results.getString("USER_ROLE"));
+                pstmt.executeQuery();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,9 +43,9 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void create(String one, String two, String three, String four, String five) {
+    public void register(String one, String two, String three, String four, String five) {
         String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, ROLE_ID) "
-            + "values (?, ?, ?, ?, ?, 0);";
+            + "values (?,?,?,?,?,0);";
         try{
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setString(1, one);
@@ -52,7 +53,7 @@ public class UserDaoImp implements UserDao {
             pstmt.setString(3, three);
             pstmt.setString(4, four);
             pstmt.setString(5, five);
-            pstmt.executeUpdate();
+            pstmt.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();

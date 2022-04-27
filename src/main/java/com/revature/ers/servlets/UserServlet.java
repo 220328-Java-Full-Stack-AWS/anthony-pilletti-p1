@@ -20,6 +20,7 @@ public class UserServlet extends HttpServlet {
     public UserServlet() {
         super();
     }
+
     @Override
     public void init() throws ServletException {
         this.dao = new UserDaoImp();
@@ -30,7 +31,7 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = dao.getUserByUserName(req.getHeader("username"));
         resp.setStatus(200);
-        resp.getWriter().print(dao.getUserByUserName(user.getUsername()));
+        resp.getWriter().print(user);
     }
 
     @Override
@@ -38,9 +39,9 @@ public class UserServlet extends HttpServlet {
         switch(req.getHeader("mode")) {
             case "register":
                 User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
-                dao.create(u.getUsername(), u.getPassword(), u.getFirst(), u.getLast(), u.getEmail());
+                dao.register(u.getUsername(), u.getPassword(), u.getFirst(),u.getLast(),u.getEmail());
                 resp.setStatus(201);
-                //resp.getWriter().print(dao.getUserByUserName(u.getUsername()));
+                resp.getWriter().print(dao.getUserByUserName(u.getUsername()));
                 resp.setHeader("access-control-expose-headers", "authToken");
                 resp.setHeader("authToken", u.getUsername());
                 break;
