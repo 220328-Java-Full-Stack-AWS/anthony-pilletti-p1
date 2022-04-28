@@ -33,6 +33,11 @@
                 <input type="text" id="email" placeholder="email" >
             </div>
             <button id="contentBoxButton" onclick="submitForm()">Register</button>
+            <div class="flexRow">
+                <label>Already have an account?</label>
+                <button id="contentBoxButton" onclick="login()">Login</button>
+            </div>
+            
         </div>
 
 
@@ -50,6 +55,7 @@
                 email: document.getElementById("email").value
             }
             console.log(newUser);
+            
 
             let response = await registerRequest(newUser);
 
@@ -76,7 +82,11 @@
 
             //console.log(response);
         }
+        async function login() {
+                window.location.href = "./login.html";
+        }
     </script>
+    
 
 
 </body>

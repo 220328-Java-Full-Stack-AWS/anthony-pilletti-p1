@@ -1,6 +1,7 @@
 package com.revature.ers.dao;
 
 import com.revature.ers.models.Reimbursement;
+import com.revature.ers.models.Role;
 import com.revature.ers.models.User;
 import com.revature.ers.util.ConnectionManager;
 import java.sql.*;
@@ -60,6 +61,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
                 r.setAuthor(u);
+                r.getAuthor().setRole(Role.EMPLOYEE);
                 r.setResolver(resolverDao.getUserByUserName(results.getString("resolver_username")));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
@@ -135,6 +137,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
                 r.setAuthor(u);
+                r.getAuthor().setRole(Role.EMPLOYEE);
                 r.setResolver(resolverDao.getUserByUserName(results.getString("resolver_username")));
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
@@ -174,6 +177,7 @@ public class ReimbursementDaoImp implements ReimbursementDao{
                 r.setSubmitted(results.getDate("reimb_submitted"));
                 r.setResolved(results.getDate("reimb_resolved"));
                 r.setAuthor(u);
+                r.getAuthor().setRole(Role.EMPLOYEE);
                 r.setStatus(results.getString("reimb_status"));
                 r.setType(results.getString("reimb_type"));
                 list.add(r);

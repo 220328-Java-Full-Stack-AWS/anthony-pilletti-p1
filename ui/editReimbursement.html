@@ -9,18 +9,21 @@
 </head>
 
 <body>
+    <script src="./scripts/reimbursementConnection.js"></script>
+    <script src="./scripts/userConnection.js"></script>
     <script>        
-        let authorizedUser = localStorage.getItem("authToken");
-        console.log("authorizedUser: ", authorizedUser);
-        let user = await getUser(authorizedUser);
-        let json = await user.json();
-        console.log("Response: ", user);
-        console.log("Response JSON: ", json);
-        let authorization = {
-            username: json.username,
-            password: json.password
-        }
-        let pending = getReimbursementByPendingUser(authorization);
+        (async function displayPending(){
+            let authorizedUser = localStorage.getItem("authToken");
+            console.log("authorizedUser: ", authorizedUser);
+            let user = await getUser(authorizedUser);
+            let json = await user.json();
+            console.log("Response: ", user);
+            console.log("Response JSON: ", json);
+            let pending = await getReimbursementByPendingUser(authorizedUser);
+            console.log("Response", pending);
+            let j = await pending.json();
+            console.log("Response", j);
+        })();
     </script>
     <div class="contentBox">
         <div class="flexColumn">
@@ -38,22 +41,24 @@
     </div>
 
     <!-- This imports a script file, in this case it imports the exported scripts from that file -->
-    <script src="./scripts/reimbursementConnection.js"></script>
-    <script src="./scripts/userConnection.js"></script>
     <script>
 
         async function submitForm() {
-            let editReimbursement = {
+            let authorizedUser = localStorage.getItem("authToken");
+            console.log("authorizedUser: ", authorizedUser);
+            let user = await getUser(authorizedUser);
+            let json = await user.json();
+            console.log("Response: ", user);
+            console.log("Response JSON: ", json);
+            json.role = 1;
+            let editedReimbursement = {
                 id: document.getElementById("id").value,
                 amount: document.getElementById("amount").value,
                 author: json
             }
-            console.log(editReimbursement);
+            console.log(editedReimbursement);
 
-            let response = createReimbursement(editReimbursement);
-
-            console.log("Response: ", response);
-            console.log("Response JSON: ", response.json());
+            let response = await editReimbursement(editedReimbursement);
 
             if (response.status == 204) {
 

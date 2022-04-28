@@ -2,11 +2,13 @@ package com.revature.ers;
 
 
 import com.revature.ers.dao.*;
+import com.revature.ers.exceptions.UsernameNotUniqueException;
 import com.revature.ers.models.Reimbursement;
 import com.revature.ers.models.Role;
 import com.revature.ers.models.User;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.UserService;
+import org.postgresql.util.PSQLException;
 
 import java.util.*;
 
@@ -48,7 +50,11 @@ public class ErsDriver {
                    String password = scan.nextLine();
                    System.out.println("Enter your email:");
                    String email = scan.nextLine();
-                   uDao.register(username,password,first,last,email);
+                   try{
+                       uDao.register(username,password,first,last,email);
+                   } catch (UsernameNotUniqueException e){
+                       e.printStackTrace();
+                   }
                    break;
                }else {
                    System.out.println("I didn't quite catch that");

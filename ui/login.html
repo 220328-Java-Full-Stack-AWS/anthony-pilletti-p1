@@ -20,9 +20,14 @@
                 <label>Password: </label>
                 <input type="text" id="password" placeholder="password" name="password">
             </div>
+            <button onclick="submitForm()">Login</button>
+            <div class="flexRow">
+                <label>Don't have an account?</label>
+                <button onclick="register()">Register</button>
+            </div>
         </div>
 
-        <button onclick="submitForm()">Login</button>
+        
     </div>
 
     <!-- This imports a script file, in this case it imports the exported scripts from that file -->
@@ -50,16 +55,26 @@
                 let token = response.headers.get("authToken");
                 console.log("authToken received: ", token);
                 localStorage.setItem("authToken", token);
-
+                let check = await getUser(token);
+                let json = await check.json();
+                console.log("Response: ", check);
+                console.log("Response JSON: ", json);
+                if(json.role == 'EMPLOYEE'){
+                    window.location.href = "./landingpage.html";
+                } else if (json.role == 'FINANCE_MANAGER'){
+                    window.location.href = "./adminhome.html";
+                }
                 //navigate the window to the landing page
-                window.location.href = "./landingpage.html";
+                
 
             } else {
                 alert("Unable to log in! Check username and password!");
             }
         }
 
-
+        async function register(){
+            window.location.href = "./register.html";
+        }
     </script>
 </body>
 

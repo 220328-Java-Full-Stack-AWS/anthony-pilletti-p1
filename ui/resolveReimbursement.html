@@ -14,7 +14,7 @@
                 <input type="text" id="status" placeholder="status" name="status">
             </div>
             <div class="flexRow">
-                <label>Type: </label>
+                <label>Reimbursement ID: </label>
                 <input type="text" id="id" placeholder="id" name="id">
             </div>
         </div>
@@ -34,21 +34,19 @@
             let json = await user.json();
             console.log("Response: ", user);
             console.log("Response JSON: ", json);
+            json.role = 2;
             let resolveReimbursement = {
                 id: document.getElementById("id").value,
-                status: document.getElementById("amount").value,
-                author: json
+                status: document.getElementById("status").value,
+                resolver: json
             }
             console.log(resolveReimbursement);
 
-            let response = completeReimbursement(resolveReimbursement);
-
-            console.log("Response: ", response);
-            console.log("Response JSON: ", response.json());
+            let response = await completeReimbursement(resolveReimbursement);
 
             if (response.status == 204) {
 
-                window.location.href = "./landingpage.html";
+                window.location.href = "./adminhome.html";
 
             } else {
                 alert("Unable to resolve reimbursement!");

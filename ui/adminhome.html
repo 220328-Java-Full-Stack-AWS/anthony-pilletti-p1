@@ -20,7 +20,7 @@
         as soon as the function is defined it is called.
         */
         (async function displayUser() {
-            
+
             let authorizedUser = localStorage.getItem("authToken");
             console.log("authorizedUser: ", authorizedUser);
             let response = await getUser(authorizedUser);
@@ -29,7 +29,7 @@
             console.log("Response JSON: ", json);
 
             let paragraph = document.getElementById("pageContent");
-            paragraph.innerHTML += "<h1>Welcome, "
+            paragraph.innerHTML += "<h1>Welcome Finance Manager, "
                 + json.first
                 + "</h1><br>"
                 + json.last + ", " + json.first
@@ -37,25 +37,17 @@
                 + "<br> email: " + json.email
         })(); 
     </script>
-    <button onclick="viewReimbursements()">View All Reimbursements</button>
-    <button onclick="createReimbursements()">Create a New Reimbursement</button>
-    <button onclick="editReimbursements()">Edit a past Reimbursement</button>
-    <button onclick="deleteReimbursements()">Delete a pending Reimbursement</button>
+    <button onclick="viewReimbursementsByStatus()">View Reimbursements by status filter</button>
+    <button onclick="completeReimbursements()">Approve or deny a reimbursement</button>
     <button onclick="logout()">Logout</button>
     <script>
-        async function viewReimbursements(){
-            window.location.href = "./allReimbursements.html";
+        async function viewReimbursementsByStatus() {
+            window.location.href = "./statusReimbursements.html";
         }
-        async function createReimbursements(){
-            window.location.href = "./createreimbursement.html";           
+        async function completeReimbursements() {
+            window.location.href = "./resolveReimbursement.html";
         }
-        async function editReimbursements(){
-            window.location.href = "./editReimbursement.html";
-        }
-        async function deleteReimbursements() {
-            window.location.href = "./deleteReimbursement.html";
-        }
-        async function logout() {
+        async function logout(){
             window.location.href = "./login.html";
         }
     </script>

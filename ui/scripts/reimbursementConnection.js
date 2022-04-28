@@ -4,7 +4,7 @@ let reimbursementResourceURL = "http://localhost:8080/ERS/Reimbursement";
 
 
 async function createReimbursement(newReimbursement) {
-    return await fetch(
+    let response = await fetch(
         reimbursementResourceURL,
         {
             method: "POST",
@@ -15,19 +15,19 @@ async function createReimbursement(newReimbursement) {
         }
     );
 
-    //return response;
+    return response;
 }
 
-async function getReimbursementByUser(authorization) {
+async function getReimbursementByUser(username) {
     let response = await fetch(
         reimbursementResourceURL,
         {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "mode": "user"
-            },
-            body: JSON.stringify(authorization)
+                "mode": "user",
+                username: username 
+            }
         }
     );
 
@@ -50,16 +50,16 @@ async function getReimbursementByStatus(status) {
     return response;
 }
 
-async function getReimbursementByPendingUser(authorization) {
+async function getReimbursementByPendingUser(username) {
     let response = await fetch(
         reimbursementResourceURL,
         {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "mode": "pendinguser"
-            },
-            body: JSON.stringify(authorization)
+                "mode": "pendinguser",
+                username: username
+            }
         }
     );
 

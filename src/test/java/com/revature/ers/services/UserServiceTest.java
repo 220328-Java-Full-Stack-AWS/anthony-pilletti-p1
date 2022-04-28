@@ -5,17 +5,11 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
-
-import com.revature.ers.dao.UserDaoImp;
-import com.revature.ers.exceptions.NewUserHasNonZeroIdException;
-import com.revature.ers.exceptions.RegistrationUnsuccessfulException;
 import com.revature.ers.dao.UserDao;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.ers.exceptions.UsernameNotUniqueException;
 import com.revature.ers.models.Role;
 import com.revature.ers.models.User;
 

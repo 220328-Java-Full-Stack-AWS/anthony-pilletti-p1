@@ -1,8 +1,10 @@
 package com.revature.ers.dao;
 
 
+import com.revature.ers.exceptions.UsernameNotUniqueException;
 import com.revature.ers.models.User;
 import com.revature.ers.util.ConnectionManager;
+import org.postgresql.util.PSQLException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +45,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void register(String one, String two, String three, String four, String five) {
+    public void register(String one, String two, String three, String four, String five) throws UsernameNotUniqueException {
         String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, ROLE_ID) "
             + "values (?,?,?,?,?,0);";
         try{

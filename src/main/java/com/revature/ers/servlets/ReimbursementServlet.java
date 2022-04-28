@@ -37,8 +37,7 @@ public class ReimbursementServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch(req.getHeader("mode")){
             case "user":
-                Authorization authorization = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
-                List<Reimbursement> all = rDao.getReimbursementUser(uDao.getUserByUserName(authorization.getUsername()));
+                List<Reimbursement> all = rDao.getReimbursementUser(uDao.getUserByUserName(req.getHeader("username")));
                 Iterator<Reimbursement> aIterate = all.iterator();
                 while(aIterate.hasNext()){
                     Reimbursement a = aIterate.next();
@@ -49,8 +48,7 @@ public class ReimbursementServlet extends HttpServlet {
                 }
                 break;
             case "status":
-                Reimbursement s = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
-                List<Reimbursement> status = rServ.getAllReimbursementsStatus(s.getStatus().toInt());
+                List<Reimbursement> status = rServ.getAllReimbursementsStatus(Integer.parseInt(req.getHeader("status")));
                 Iterator<Reimbursement> sIterate = status.iterator();
                 while(sIterate.hasNext()){
                     Reimbursement r = sIterate.next();
@@ -61,8 +59,7 @@ public class ReimbursementServlet extends HttpServlet {
                 }
                 break;
             case "pendinguser":
-                Authorization apending = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
-                List<Reimbursement> pending = rDao.getPendingReimbursementByUser(uDao.getUserByUserName(apending.getUsername()));
+                List<Reimbursement> pending = rDao.getPendingReimbursementByUser(uDao.getUserByUserName(req.getHeader("username")));
                 Iterator<Reimbursement> pIterate = pending.iterator();
                 while(pIterate.hasNext()){
                     Reimbursement p = pIterate.next();
@@ -93,6 +90,7 @@ public class ReimbursementServlet extends HttpServlet {
                 Reimbursement editAmount = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
                 rDao.editReimbursement(editAmount.getAmount(), editAmount.getAuthor().getUsername(), editAmount.getId());
                 resp.setStatus(204);
+                resp.setContentType("application/json");
                 break;
             case "completed":
                 Reimbursement resolve = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
@@ -110,5 +108,6 @@ public class ReimbursementServlet extends HttpServlet {
         Reimbursement r = new ObjectMapper().readValue(req.getInputStream(), Reimbursement.class);
         rDao.cancelReimbursement(r.getId(), r.getAuthor());
         resp.setStatus(202);
+        resp.setContentType("application/json");
     }
 }

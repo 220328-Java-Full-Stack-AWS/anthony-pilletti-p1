@@ -9,18 +9,21 @@
 </head>
 
 <body>
+    <script src="./scripts/reimbursementConnection.js"></script>
+    <script src="./scripts/userConnection.js"></script>
     <script>
-        let authorizedUser = localStorage.getItem("authToken");
-        console.log("authorizedUser: ", authorizedUser);
-        let user = await getUser(authorizedUser);
-        let json = await user.json();
-        console.log("Response: ", user);
-        console.log("Response JSON: ", json);
-        let authorization = {
-            username: json.username,
-            password: json.password
-        }
-        let pending = getReimbursementByPendingUser(authorization);
+        (async function displayPending() {
+            let authorizedUser = localStorage.getItem("authToken");
+            console.log("authorizedUser: ", authorizedUser);
+            let user = await getUser(authorizedUser);
+            let json = await user.json();
+            console.log("Response: ", user);
+            console.log("Response JSON: ", json);
+            let pending = await getReimbursementByPendingUser(authorizedUser);
+            console.log("Response", pending);
+            let j = await pending.json();
+            console.log("Response", j);
+        })();
     </script>
     <div class="contentBox">
         <div class="flexColumn">
@@ -30,32 +33,36 @@
             </div>
         </div>
 
-        <button onclick="submitForm()">Update</button>
+        <button onclick="submitForm()">Delete</button>
     </div>
 
     <!-- This imports a script file, in this case it imports the exported scripts from that file -->
-    <script src="./scripts/reimbursementConnection.js"></script>
-    <script src="./scripts/userConnection.js"></script>
     <script>
 
         async function submitForm() {
-            let deleteReimbursement = {
+            let authorizedUser = localStorage.getItem("authToken");
+            console.log("authorizedUser: ", authorizedUser);
+            let user = await getUser(authorizedUser);
+            let json = await user.json();
+            console.log("Response: ", user);
+            console.log("Response JSON: ", json);
+            json.role = 1;
+            let deletedReimbursement = {
                 id: document.getElementById("id").value,
                 author: json
             }
-            console.log(deleteReimbursement);
+            console.log(deletedReimbursement);
 
-            let response = deleteReimbursement(deleteReimbursement);
+            let response = deleteReimbursement(deletedReimbursement);
+            console.log(response);
 
-            console.log("Response: ", response);
-            console.log("Response JSON: ", response.json());
 
-            if (response.status == 201) {
+            if (response.status == 202) {
 
                 window.location.href = "./landingpage.html";
 
             } else {
-                alert("Unable to edit reimbursement!");
+                alert("Unable to delete reimbursement!");
             }
 
             //console.log(response);

@@ -2,9 +2,11 @@ package com.revature.ers.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.ers.dao.UserDaoImp;
+import com.revature.ers.exceptions.UsernameNotUniqueException;
 import com.revature.ers.models.Authorization;
 import com.revature.ers.models.User;
 import com.revature.ers.services.UserService;
+import org.postgresql.util.PSQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,15 +42,19 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch(req.getHeader("mode")) {
             case "register":
-                User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
-                dao.register(u.getUsername(), u.getPassword(), u.getFirst(),u.getLast(),u.getEmail());
-                resp.setStatus(201);
-                User u2= dao.getUserByUserName(u.getUsername());
-                String json = mapper.writeValueAsString(u2);
-                resp.setContentType("application/json");
-                resp.setHeader("access-control-expose-headers", "authToken");
-                resp.setHeader("authToken", u.getUsername());
-                resp.getWriter().print(json);
+                try{
+                    User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
+                    dao.register(u.getUsername(), u.getPassword(), u.getFirst(),u.getLast(),u.getEmail());
+                    resp.setStatus(201);
+                    User u2= dao.getUserByUserName(u.getUsername());
+                    String json = mapper.writeValueAsString(u2);
+                    resp.setContentType("application/json");
+                    resp.setHeader("access-control-expose-headers", "authToken");
+                    resp.setHeader("authToken", u.getUsername());
+                    resp.getWriter().print(json);
+                } catch (UsernameNotUniqueException e){
+                    resp.setStatus(401);
+                }
                 break;
             case "login":
                 Authorization authorization = new ObjectMapper().readValue(req.getInputStream(), Authorization.class);
