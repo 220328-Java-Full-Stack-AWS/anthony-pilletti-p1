@@ -42,18 +42,18 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch(req.getHeader("mode")) {
             case "register":
-                try{
-                    User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
+                User u = new ObjectMapper().readValue(req.getInputStream(), User.class);
+                if(dao.getUserByUserName(u.getUsername()).getUsername() == null){
                     dao.register(u.getUsername(), u.getPassword(), u.getFirst(),u.getLast(),u.getEmail());
                     resp.setStatus(201);
-                    User u2= dao.getUserByUserName(u.getUsername());
+                    User u2 = dao.getUserByUserName(u.getUsername());
                     String json = mapper.writeValueAsString(u2);
                     resp.setContentType("application/json");
                     resp.setHeader("access-control-expose-headers", "authToken");
                     resp.setHeader("authToken", u.getUsername());
                     resp.getWriter().print(json);
-                } catch (UsernameNotUniqueException e){
-                    resp.setStatus(401);
+                }else{
+                    resp.setStatus(400);
                 }
                 break;
             case "login":

@@ -50,11 +50,7 @@ public class ErsDriver {
                    String password = scan.nextLine();
                    System.out.println("Enter your email:");
                    String email = scan.nextLine();
-                   try{
-                       uDao.register(username,password,first,last,email);
-                   } catch (UsernameNotUniqueException e){
-                       e.printStackTrace();
-                   }
+                   uDao.register(username,password,first,last,email);
                    break;
                }else {
                    System.out.println("I didn't quite catch that");

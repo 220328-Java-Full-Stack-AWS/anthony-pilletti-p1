@@ -45,7 +45,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void register(String one, String two, String three, String four, String five) throws UsernameNotUniqueException {
+    public void register(String one, String two, String three, String four, String five) {
         String sql = "INSERT INTO ERS_USERS (USERNAME, ERS_PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, ROLE_ID) "
             + "values (?,?,?,?,?,0);";
         try{
