@@ -80,6 +80,7 @@ public class UserDaoImp implements UserDao {
                 u.setEmail(results.getString("EMAIL"));
                 u.setRole(results.getInt("ROLE_ID"));
                 list.add(u);
+                results.next();
             }
         } catch (SQLException e) {
             e.printStackTrace();
